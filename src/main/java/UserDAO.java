@@ -2,6 +2,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.aston.cruddd.entity.User;
 
+import java.util.List;
+
 public class UserDAO {
     public void createUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -33,6 +35,12 @@ public class UserDAO {
                 session.delete(user);
             }
             tx.commit();
+        }
+    }
+
+    public List<User> getAllUsers() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM User", User.class).list();
         }
     }
 }
